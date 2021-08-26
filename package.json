@@ -4,7 +4,7 @@
   "description": "RSS aggregator",
   "scripts": {
     "test": "jest --colors",
-    "build": "npx webpack build" 
+    "build": "npx webpack build"
   },
   "repository": {
     "type": "git",
@@ -37,10 +37,13 @@
     "eslint-plugin-jest": "^24.4.0",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.3.2",
+    "html-webpack-tags-plugin": "^3.0.1",
     "jest": "^27.0.6",
     "jest-cli": "^27.0.6",
     "postcss-loader": "^6.1.1",
     "postcss-preset-env": "^6.7.0",
+    "sass": "^1.38.1",
+    "sass-loader": "^12.1.0",
     "style-loader": "^3.2.1",
     "url-loader": "^4.1.1",
     "webpack": "^5.46.0",
