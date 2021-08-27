@@ -4,6 +4,7 @@ import 'bootstrap';
 import './style.css';
 import validate from './validator.js';
 import initView from './view.js';
+import parse from './parser.js';
 
 const state = {
   urls: [],
@@ -20,7 +21,11 @@ const elements = {
   form: document.querySelector('.rss-form'),
   input: document.querySelector('.form-control'),
   feedback: document.querySelector('.feedback'),
+  posts: document.querySelector('.posts'),
+  feeds: document.querySelector('.feeds'),
 };
+
+parse(elements);
 
 const watched = initView(state, elements);
 
