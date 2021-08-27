@@ -1,25 +1,25 @@
-import axios from "axios";
+import axios from 'axios';
 
 const parser = new DOMParser();
 
-const parse = (elements) => {
-    axios.get('https://ru.hexlet.io/lessons.rss')
-    .then(function (response) {
+const parse = () => {
+  axios.get('https://ru.hexlet.io/lessons.rss')
+    .then((response) => {
       console.log(response.data);
-      const doc1 = parser.parseFromString(response.data, "application/xml");
-    //   elements.posts.innerHTML = doc1;
-    //   elements.posts.append(doc1);
-    const rss = doc1.children[0].children[0].children
+      const doc1 = parser.parseFromString(response.data, 'application/xml');
+      //   elements.posts.innerHTML = doc1;
+      //   elements.posts.append(doc1);
+      const rss = doc1.children[0].children[0].children;
       console.log('rss: ', rss);
 
-      Object.values(rss).forEach(item => {
-          console.log(1, item.nodeName);
-      })
+      Object.values(rss).forEach((item) => {
+        console.log(1, item.nodeName);
+      });
     })
-    .catch(function (error) {
+    .catch((error) => {
       // handle error
       console.log(error);
-    })
-}
+    });
+};
 
 export default parse;

@@ -25,7 +25,7 @@ const elements = {
   feeds: document.querySelector('.feeds'),
 };
 
-parse(elements);
+parse();
 
 const watched = initView(state, elements);
 
