@@ -6,11 +6,14 @@ import validate from './validator.js';
 import initView from './view.js';
 
 const state = {
-  url: '',
-  isUrlValid: true,
-  isRssUniq: true,
-  isRssValid: true,
   urls: [],
+  form: {
+    status: 'filling',
+    url: {
+      valid: true,
+      error: null,
+    },
+  },
 };
 
 const elements = {

@@ -1,28 +1,20 @@
 import onChange from 'on-change';
+import i18next from 'i18next';
+import i18nInit from './i18n.js';
+
+i18nInit();
 
 const render = (state, elements) => {
-  if (state.isUrlValid === false || state.isRssUniq === false || state.isRssValid === false) {
+  if (state.form.url.valid === false) {
     elements.input.classList.add('is-invalid');
+    elements.feedback.classList.add('text-danger');
+    elements.feedback.classList.remove('text-success');
+    elements.feedback.textContent = i18next.t(state.form.url.error);
   } else {
     elements.input.classList.remove('is-invalid');
-  }
-
-  if (state.isUrlValid === false) {
-    elements.feedback.classList.add('text-danger');
-    elements.feedback.classList.remove('text-success');
-    elements.feedback.textContent = 'Ссылка должна быть валидным URL';
-  } else if (state.isRssUniq === false) {
-    elements.feedback.classList.add('text-danger');
-    elements.feedback.classList.remove('text-success');
-    elements.feedback.textContent = 'RSS уже существует';
-  } else if (state.isRssValid === false) {
-    elements.feedback.classList.add('text-danger');
-    elements.feedback.classList.remove('text-success');
-    elements.feedback.textContent = 'Ресурс не содержит валидный RSS';
-  } else {
     elements.feedback.classList.remove('text-danger');
     elements.feedback.classList.add('text-success');
-    elements.feedback.textContent = 'RSS успешно загружен';
+    elements.feedback.textContent = i18next.t('rssIsValid');
     elements.form.reset();
     elements.input.focus();
   }
@@ -31,10 +23,6 @@ const render = (state, elements) => {
 const initView = (state, elements) => {
   const watchedState = onChange(state, () => {
     render(state, elements);
-
-    if (state.isUrlValid && state.isRssUniq && state.isRssValid) {
-      state.urls.push(state.url);
-    }
   });
 
   return watchedState;

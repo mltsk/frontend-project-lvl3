@@ -1,23 +1,29 @@
 import * as yup from 'yup';
 
-const schema = yup.object().shape({
-  url: yup.string().url(),
+yup.setLocale({
+  mixed: {
+    default: 'field_invalid',
+    notOneOf: 'rssAlreadyExists',
+  },
+  string: {
+    url: 'urlIsNotValid',
+  },
 });
 
-// check validity
 const validate = (url, state) => {
-  schema
-    .isValid({
-      url,
-    })
-    .then((valid) => {
-      state.isUrlValid = valid;
-    })
+  const schema = yup.object().shape({
+    url: yup.string().url().notOneOf(state.urls),
+  });
+  schema.validate({ url })
     .then(() => {
-      state.isRssUniq = !state.urls.includes(url);
+      state.urls.push(url);
+      state.form.url.valid = true;
+      state.form.url.error = null;
     })
-    .then(() => {
-      state.url = url;
+    .catch((err) => {
+      const error = err.errors[0];
+      state.form.url.valid = false;
+      state.form.url.error = error;
     });
 };
 
