@@ -1,7 +1,7 @@
 import i18next from 'i18next';
 
 const i18nInit = () => i18next.init({
-  lng: 'ru', 
+  lng: 'ru',
   debug: true,
   resources: {
     ru: {
