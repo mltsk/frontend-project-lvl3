@@ -51,6 +51,7 @@
     "webpack-dev-server": "^3.11.2"
   },
   "dependencies": {
+    "@jest/globals": "^27.1.0",
     "@popperjs/core": "^2.9.3",
     "axios": "^0.21.1",
     "bootstrap": "^5.1.0",

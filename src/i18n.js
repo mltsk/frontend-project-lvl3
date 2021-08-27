@@ -16,7 +16,7 @@ const i18nInit = () => {
         },
       },
     },
-  }).catch((e) => console.log(e));
+  });
 };
 
 export default i18nInit;
