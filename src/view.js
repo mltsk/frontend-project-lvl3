@@ -122,8 +122,8 @@ const initView = (state, elements, feed, posts) => {
           renderPost(posts, elements);
         }
         break;
-      default:
-        throw Error(`Unknown path: ${path}`);
+      // default:
+      //   throw Error(`Unknown path: ${path}`);
     }
   });
 
