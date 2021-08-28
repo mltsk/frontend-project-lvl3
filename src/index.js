@@ -4,7 +4,6 @@ import 'bootstrap';
 import './style.css';
 import validate from './validator.js';
 import initView from './view.js';
-import _ from 'lodash';
 
 const state = {
   urls: [],
@@ -27,6 +26,7 @@ const elements = {
   feedback: document.querySelector('.feedback'),
   posts: document.querySelector('.posts'),
   feeds: document.querySelector('.feeds'),
+  button: document.querySelector("[aria-label='add']"),
 };
 
 const watched = initView(state, elements, feed, posts);
@@ -36,6 +36,4 @@ elements.form.addEventListener('submit', (event) => {
   const formData = new FormData(event.target);
   const url = formData.get('url');
   validate(url, watched);
-//   console.log('state.form.url.link: ', state.form.url.link);
 });
-

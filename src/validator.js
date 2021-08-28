@@ -26,7 +26,7 @@ const validate = (url, state) => {
     })
     .then(() => {
       state.form.input.url = url;
-    })
+    });
 };
 
 export default validate;
