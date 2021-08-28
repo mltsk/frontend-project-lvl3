@@ -4,18 +4,22 @@ import 'bootstrap';
 import './style.css';
 import validate from './validator.js';
 import initView from './view.js';
-import parse from './parser.js';
+import _ from 'lodash';
 
 const state = {
   urls: [],
   form: {
     status: 'filling',
-    url: {
+    input: {
+      url: null,
       valid: true,
       error: null,
     },
   },
 };
+
+const feed = [];
+const posts = [];
 
 const elements = {
   form: document.querySelector('.rss-form'),
@@ -25,13 +29,13 @@ const elements = {
   feeds: document.querySelector('.feeds'),
 };
 
-parse();
-
-const watched = initView(state, elements);
+const watched = initView(state, elements, feed, posts);
 
 elements.form.addEventListener('submit', (event) => {
   event.preventDefault();
   const formData = new FormData(event.target);
   const url = formData.get('url');
   validate(url, watched);
+//   console.log('state.form.url.link: ', state.form.url.link);
 });
+

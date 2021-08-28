@@ -16,15 +16,17 @@ const validate = (url, state) => {
   });
   schema.validate({ url })
     .then(() => {
-      state.urls.push(url);
-      state.form.url.valid = true;
-      state.form.url.error = null;
+      state.form.input.valid = true;
+      state.form.input.error = null;
     })
     .catch((err) => {
       const error = err.errors[0];
-      state.form.url.valid = false;
-      state.form.url.error = error;
-    });
+      state.form.input.valid = false;
+      state.form.input.error = error;
+    })
+    .then(() => {
+      state.form.input.url = url;
+    })
 };
 
 export default validate;
