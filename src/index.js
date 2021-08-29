@@ -1,24 +1,20 @@
-// @ts-check
-
 import 'bootstrap';
 import './style.css';
 import validate from './validator.js';
 import initView from './view.js';
+import timer from './timer.js';
 
 const state = {
   urls: [],
   form: {
     status: 'filling',
     input: {
-      url: null,
-      valid: true,
       error: null,
     },
   },
+  feeds: [],
+  posts: [],
 };
-
-const feed = [];
-const posts = [];
 
 const elements = {
   form: document.querySelector('.rss-form'),
@@ -29,15 +25,14 @@ const elements = {
   button: document.querySelector("[aria-label='add']"),
 };
 
-const watched = initView(state, elements, feed, posts);
+const watched = initView(state, elements);
+
+timer(watched);
 
 elements.form.addEventListener('submit', (event) => {
   event.preventDefault();
+  watched.form.input.error = null;
   const formData = new FormData(event.target);
   const url = formData.get('url');
   validate(url, watched);
 });
-
-// setTimeout(() => {
-
-// }, 5000);

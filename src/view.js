@@ -1,18 +1,8 @@
 import onChange from 'on-change';
 import i18next from 'i18next';
 import i18nInit from './i18n.js';
-import getRss from './getRss.js';
 
 i18nInit();
-
-const renderError = (state, elements) => {
-  if (state.form.input.valid === false) {
-    elements.input.classList.add('is-invalid');
-    elements.feedback.classList.add('text-danger');
-    elements.feedback.classList.remove('text-success');
-    elements.feedback.textContent = i18next.t(state.form.input.error);
-  }
-};
 
 const renderSuccess = (state, elements) => {
   elements.input.classList.remove('is-invalid');
@@ -21,10 +11,22 @@ const renderSuccess = (state, elements) => {
   elements.feedback.textContent = i18next.t('rssIsValid');
   elements.form.reset();
   elements.input.focus();
-  state.form.input.url = null;
 };
 
-const renderFeed = (feed, elements) => {
+const renderError = (state, elements) => {
+  if (state.form.input.error === false) {
+    renderSuccess(state, elements);
+  } else if (state.form.input.error) {
+    elements.input.classList.add('is-invalid');
+    elements.feedback.classList.add('text-danger');
+    elements.feedback.classList.remove('text-success');
+    elements.feedback.textContent = i18next.t(state.form.input.error);
+  } else {
+    elements.feedback.textContent = '';
+  }
+};
+
+const renderFeed = (feeds, elements) => {
   elements.feeds.innerHTML = '';
   const divCard = document.createElement('div');
   divCard.classList.add('card', 'border-0');
@@ -38,7 +40,7 @@ const renderFeed = (feed, elements) => {
 
   const ul = document.createElement('ul');
   ul.classList.add('list-group', 'border-0', 'rounded-0');
-  feed.forEach((el) => {
+  feeds.forEach((el) => {
     const li = document.createElement('li');
     li.classList.add('list-group-item', 'border-0', 'border-end-0');
     const h3 = document.createElement('h3');
@@ -76,7 +78,7 @@ const renderPost = (posts, elements) => {
     a.classList.add('fw-bold');
     a.textContent = el.title;
     a.setAttribute('target', '_blank');
-    a.setAttribute('rel', 'noopener noreferrer');
+    a.setAttribute('rel', 'noopener', 'noreferrer');
     a.dataset.id = el.id;
     a.href = el.link;
 
@@ -97,13 +99,14 @@ const renderPost = (posts, elements) => {
   elements.posts.append(divCard);
 };
 
-const initView = (state, elements, feed, posts) => {
+const initView = (state, elements) => {
   const watchedState = onChange(state, (path, value) => {
     switch (path) {
-      case 'form.input.url':
-        if (value !== null && state.form.input.valid === true) {
-          getRss(watchedState, feed, posts);
-        }
+      case 'feeds':
+        renderFeed(state.feeds, elements);
+        break;
+      case 'posts':
+        renderPost(state.posts, elements);
         break;
       case 'form.input.error':
         renderError(state, elements);
@@ -115,15 +118,14 @@ const initView = (state, elements, feed, posts) => {
         if (value === 'failed') {
           elements.button.removeAttribute('disabled');
         }
-        if (state.form.status === 'success') {
+        if (value === 'success') {
           elements.button.removeAttribute('disabled');
-          renderSuccess(state, elements);
-          renderFeed(feed, elements);
-          renderPost(posts, elements);
         }
         break;
-      // default:
-      //   throw Error(`Unknown path: ${path}`);
+      case 'urls':
+        break;
+      default:
+        throw Error(`Unknown path: ${path}`);
     }
   });
 
