@@ -32,7 +32,7 @@ const watched = initView(state, elements);
 
 timer(watched);
 console.log(elements.form);
-elements.form.addEventListener('submit', (event) => {
+document.querySelector('.rss-form').addEventListener('submit', (event) => {
   event.preventDefault();
   watched.form.input.error = null;
   const formData = new FormData(event.target);
