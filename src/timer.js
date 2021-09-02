@@ -13,6 +13,7 @@ const getPosts = (rss, feedId) => {
     if (item.nodeName === 'item') {
       const post = {};
       post.feedId = feedId;
+      post.status = 'unread';
       post.title = item.children[0].textContent;
       post.link = item.children[2].textContent;
       post.description = item.children[3].textContent;

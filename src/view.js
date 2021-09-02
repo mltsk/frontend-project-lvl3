@@ -75,7 +75,11 @@ const renderPost = (posts, elements) => {
     const li = document.createElement('li');
     li.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-start', 'border-0', 'border-end-0');
     const a = document.createElement('a');
-    a.classList.add('fw-bold');
+    if (el.status === 'unread') {
+      a.classList.add('fw-bold');
+    } else {
+      a.classList.add('fw-normal');
+    }
     a.textContent = el.title;
     a.setAttribute('target', '_blank');
     a.setAttribute('rel', 'noopener', 'noreferrer');
@@ -97,6 +101,20 @@ const renderPost = (posts, elements) => {
 
   divCard.append(ul);
   elements.posts.append(divCard);
+
+  document.querySelectorAll("[data-bs-target='#modal']").forEach((button) => {
+    button.addEventListener('click', (event) => {
+      const idTarget = event.target.dataset.id;
+      const post = posts.find((item) => item.id === idTarget);
+      post.status = 'read';
+      document.querySelector(`a[data-id='${idTarget}']`).classList.remove('fw-bold');
+      document.querySelector(`a[data-id='${idTarget}']`).classList.add('fw-normal');
+      elements.modalTitle.textContent = post.title;
+      elements.modalBody.textContent = post.description;
+      console.log('post: ', post);
+    // console.log(event.target.dataset.id);
+    });
+  });
 };
 
 const initView = (state, elements) => {

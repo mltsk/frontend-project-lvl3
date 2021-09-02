@@ -23,6 +23,9 @@ const elements = {
   posts: document.querySelector('.posts'),
   feeds: document.querySelector('.feeds'),
   button: document.querySelector("[aria-label='add']"),
+  previewBtn: document.querySelectorAll("[data-bs-target='#modal']"),
+  modalTitle: document.querySelector('.modal-title'),
+  modalBody: document.querySelector('.modal-body'),
 };
 
 const watched = initView(state, elements);
