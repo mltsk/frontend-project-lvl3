@@ -43,3 +43,5 @@ const init = () => document.addEventListener('DOMContentLoaded', () => {
 });
 
 init();
+
+export default init;
