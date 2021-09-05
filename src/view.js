@@ -110,12 +110,15 @@ const renderButton = (status, elements) => {
   switch (status) {
     case 'loading':
       elements.button.setAttribute('disabled', true);
+      elements.input.setAttribute('readOnly', true);
       break;
     case 'failed':
       elements.button.removeAttribute('disabled');
+      elements.input.removeAttribute('readOnly');
       break;
     case 'success':
       elements.button.removeAttribute('disabled');
+      elements.input.removeAttribute('readOnly');
       elements.form.reset();
       elements.input.focus();
       break;
