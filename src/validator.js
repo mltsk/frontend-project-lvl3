@@ -17,12 +17,14 @@ const validate = (url, state) => {
   });
   schema.validate({ url })
     .then(() => {
-      state.form.input.error = null;
+      state.form.input.feedback = null;
+      state.form.input.isValid = true;
       getRss(state, url);
     })
     .catch((err) => {
       const error = err.errors[0];
-      state.form.input.error = error;
+      state.form.input.feedback = error;
+      state.form.input.isValid = false;
     });
 };
 

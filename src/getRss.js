@@ -47,12 +47,14 @@ const getRss = (state, url) => {
       state.feeds.unshift(getFeed(rss, feedId, url));
       state.posts.unshift(...getPosts(rss, feedId, _.uniqueId));
       state.urls.push(url);
-      state.form.input.error = false;
+      state.form.input.feedback = 'RSS is valid';
+      state.form.input.isValid = true;
       state.form.status = 'success';
     })
     .catch((error) => {
       state.form.status = 'failed';
-      state.form.input.error = error.message;
+      state.form.input.feedback = error.message;
+      state.form.input.isValid = false;
     });
 };
 

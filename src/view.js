@@ -4,25 +4,21 @@ import i18nInit from './i18n.js';
 
 i18nInit();
 
-const renderSuccess = (state, elements) => {
-  elements.input.classList.remove('is-invalid');
-  elements.feedback.classList.remove('text-danger');
-  elements.feedback.classList.add('text-success');
-  elements.feedback.textContent = i18next.t('rssIsValid');
-  elements.form.reset();
-  elements.input.focus();
+const renderFeedback = (state, elements) => {
+  elements.feedback.textContent = i18next.t(state.form.input.feedback);
 };
 
-const renderError = (state, elements) => {
-  if (state.form.input.error === false) {
-    renderSuccess(state, elements);
-  } else if (state.form.input.error) {
+const renderFeedbackValidation = (value, elements) => {
+  if (value === true) {
+    elements.input.classList.remove('is-invalid');
+    elements.feedback.classList.remove('text-danger');
+    elements.feedback.classList.add('text-success');
+    elements.form.reset();
+    elements.input.focus();
+  } else {
     elements.input.classList.add('is-invalid');
     elements.feedback.classList.add('text-danger');
     elements.feedback.classList.remove('text-success');
-    elements.feedback.textContent = i18next.t(state.form.input.error);
-  } else {
-    elements.feedback.textContent = '';
   }
 };
 
@@ -124,8 +120,11 @@ const initView = (state, elements) => {
       case 'posts':
         renderPost(state.posts, elements);
         break;
-      case 'form.input.error':
-        renderError(state, elements);
+      case 'form.input.feedback':
+        renderFeedback(state, elements);
+        break;
+      case 'form.input.isValid':
+        renderFeedbackValidation(value, elements);
         break;
       case 'form.status':
         if (value === 'loading') {

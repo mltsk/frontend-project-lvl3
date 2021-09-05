@@ -10,9 +10,10 @@ const i18nInit = () => {
           // formState: {
           urlIsNotValid: 'Ссылка должна быть валидным URL',
           rssAlreadyExists: 'RSS уже существует',
-          rssIsValid: 'RSS успешно загружен',
+          'RSS is valid': 'RSS успешно загружен',
           'Error parsing XML': 'Ресурс не содержит валидный RSS',
           'Network Error': 'Ошибка сети',
+          null: '',
           // }
         },
       },

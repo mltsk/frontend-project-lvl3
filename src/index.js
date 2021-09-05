@@ -10,7 +10,8 @@ const init = () => document.addEventListener('DOMContentLoaded', () => {
     form: {
       status: 'filling',
       input: {
-        error: null,
+        feedback: null,
+        isValid: null,
       },
     },
     feeds: [],
@@ -35,7 +36,7 @@ const init = () => document.addEventListener('DOMContentLoaded', () => {
 
   elements.form.addEventListener('submit', (event) => {
     event.preventDefault();
-    watched.form.input.error = null;
+    watched.form.input.feedback = null;
     const formData = new FormData(event.target);
     const url = formData.get('url');
     validate(url, watched);
