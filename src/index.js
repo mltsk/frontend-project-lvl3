@@ -4,7 +4,7 @@ import validate from './validator.js';
 import initView from './view.js';
 import timer from './timer.js';
 
-document.addEventListener('DOMContentLoaded', () => {
+const init = () => document.addEventListener('DOMContentLoaded', () => {
   const state = {
     urls: [],
     form: {
@@ -41,3 +41,5 @@ document.addEventListener('DOMContentLoaded', () => {
     validate(url, watched);
   });
 });
+
+init();
