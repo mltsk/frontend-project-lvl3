@@ -6,7 +6,7 @@ import initView from './view.js';
 import timer from './timer.js';
 import resources from './locales/index.js';
 
-const init = () => document.addEventListener('DOMContentLoaded', () => {
+const init = () => {
   const state = {
     urls: [],
     form: {
@@ -53,6 +53,8 @@ const init = () => document.addEventListener('DOMContentLoaded', () => {
     const url = formData.get('url');
     validate(url, watched);
   });
-});
+}
+
+init();
 
 export default init;
