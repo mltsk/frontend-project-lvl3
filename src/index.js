@@ -1,5 +1,5 @@
 import 'bootstrap';
-import './style.css';
+import './css/style.css';
 import validate from './validator.js';
 import initView from './view.js';
 import timer from './timer.js';
