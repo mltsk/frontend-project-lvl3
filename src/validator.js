@@ -4,10 +4,10 @@ import getRss from './getRss.js';
 yup.setLocale({
   mixed: {
     default: 'field_invalid',
-    notOneOf: 'rssAlreadyExists',
+    notOneOf: 'RSS already exists',
   },
   string: {
-    url: 'urlIsNotValid',
+    url: 'URL is not valid',
   },
 });
 

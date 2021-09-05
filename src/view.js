@@ -1,8 +1,5 @@
 import onChange from 'on-change';
 import i18next from 'i18next';
-import i18nInit from './i18n.js';
-
-i18nInit();
 
 const renderFeedback = (state, elements) => {
   elements.feedback.textContent = i18next.t(state.form.input.feedback);
