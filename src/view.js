@@ -111,8 +111,6 @@ const renderPost = (posts, elements) => {
       document.querySelector(`a[data-id='${idTarget}']`).classList.add('fw-normal');
       elements.modalTitle.textContent = post.title;
       elements.modalBody.textContent = post.description;
-      console.log('post: ', post);
-    // console.log(event.target.dataset.id);
     });
   });
 };
