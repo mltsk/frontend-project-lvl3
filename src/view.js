@@ -13,8 +13,6 @@ const renderFeedbackValidation = (value, elements) => {
     elements.input.classList.remove('is-invalid');
     elements.feedback.classList.remove('text-danger');
     elements.feedback.classList.add('text-success');
-    elements.form.reset();
-    elements.input.focus();
   } else {
     elements.input.classList.add('is-invalid');
     elements.feedback.classList.add('text-danger');
@@ -135,6 +133,8 @@ const initView = (state, elements) => {
         }
         if (value === 'success') {
           elements.button.removeAttribute('disabled');
+          elements.form.reset();
+          elements.input.focus();
         }
         break;
       case 'urls':
