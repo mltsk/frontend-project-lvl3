@@ -8,12 +8,13 @@ yup.setLocale({
   },
   string: {
     url: 'URL is not valid',
+    min: 'Should not be empty'
   },
 });
 
 const validate = (url, state) => {
   const schema = yup.object().shape({
-    url: yup.string().url().notOneOf(state.urls),
+    url: yup.string().url().min(1).notOneOf(state.urls),
   });
   schema.validate({ url })
     .then(() => {
