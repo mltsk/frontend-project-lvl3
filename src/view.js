@@ -1,12 +1,12 @@
 import onChange from 'on-change';
 import i18next from 'i18next';
 
-const renderFeedback = (value, elements) => {
-  elements.feedback.textContent = i18next.t(value);
+const renderFeedback = (feedback, elements) => {
+  elements.feedback.textContent = i18next.t(feedback);
 };
 
-const renderFeedbackValidation = (value, elements) => {
-  if (value === true) {
+const renderFeedbackValidation = (isValid, elements) => {
+  if (isValid) {
     elements.input.classList.remove('is-invalid');
     elements.feedback.classList.remove('text-danger');
     elements.feedback.classList.add('text-success');
@@ -106,38 +106,36 @@ const renderPost = (posts, elements) => {
   });
 };
 
+const renderButton = (status, elements) => {
+  switch (status) {
+    case 'loading':
+      elements.button.setAttribute('disabled', true);
+      break;
+    case 'failed':
+      elements.button.removeAttribute('disabled');
+      break;
+    case 'success':
+      elements.button.removeAttribute('disabled');
+      elements.form.reset();
+      elements.input.focus();
+      break;
+    default:
+      throw Error(`Unknown status: ${status}`);
+  }
+};
+
 const initView = (state, elements) => {
-  const watchedState = onChange(state, (path, value) => {
-    switch (path) {
-      case 'feeds':
-        renderFeed(state.feeds, elements);
-        break;
-      case 'posts':
-        renderPost(state.posts, elements);
-        break;
-      case 'form.input.feedback':
-        renderFeedback(value, elements);
-        break;
-      case 'form.input.isValid':
-        renderFeedbackValidation(value, elements);
-        break;
-      case 'form.status':
-        if (value === 'loading') {
-          elements.button.setAttribute('disabled', true);
-        }
-        if (value === 'failed') {
-          elements.button.removeAttribute('disabled');
-        }
-        if (value === 'success') {
-          elements.button.removeAttribute('disabled');
-          elements.form.reset();
-          elements.input.focus();
-        }
-        break;
-      case 'urls':
-        break;
-      default:
-        throw Error(`Unknown path: ${path}`);
+  const mapping = {
+    feeds: () => renderFeed(state.feeds, elements),
+    posts: () => renderPost(state.posts, elements),
+    'form.input.feedback': () => renderFeedback(state.form.input.feedback, elements),
+    'form.input.isValid': () => renderFeedbackValidation(state.form.input.isValid, elements),
+    'form.status': () => renderButton(state.form.status, elements),
+  };
+
+  const watchedState = onChange(state, (path) => {
+    if (mapping[path]) {
+      mapping[path]();
     }
   });
 
