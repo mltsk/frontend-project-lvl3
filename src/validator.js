@@ -8,7 +8,7 @@ yup.setLocale({
   },
   string: {
     url: 'URL is not valid',
-    min: 'Should not be empty'
+    min: 'Should not be empty',
   },
 });
 

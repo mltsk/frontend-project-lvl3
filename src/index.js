@@ -1,9 +1,9 @@
 import 'bootstrap';
 import './css/style.css';
+import i18next from 'i18next';
 import validate from './validator.js';
 import initView from './view.js';
 import timer from './timer.js';
-import i18next from 'i18next';
 import resources from './locales/index.js';
 
 const init = () => document.addEventListener('DOMContentLoaded', () => {
