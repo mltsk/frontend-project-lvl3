@@ -10,7 +10,7 @@ const init = () => document.addEventListener('DOMContentLoaded', () => {
   const state = {
     urls: [],
     form: {
-      status: 'filling',
+      status: null,
       input: {
         feedback: null,
         isValid: null,

@@ -1,8 +1,8 @@
 import onChange from 'on-change';
 import i18next from 'i18next';
 
-const renderFeedback = (state, elements) => {
-  elements.feedback.textContent = i18next.t(state.form.input.feedback);
+const renderFeedback = (value, elements) => {
+  elements.feedback.textContent = i18next.t(value);
 };
 
 const renderFeedbackValidation = (value, elements) => {
@@ -116,7 +116,7 @@ const initView = (state, elements) => {
         renderPost(state.posts, elements);
         break;
       case 'form.input.feedback':
-        renderFeedback(state, elements);
+        renderFeedback(value, elements);
         break;
       case 'form.input.isValid':
         renderFeedbackValidation(value, elements);
