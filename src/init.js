@@ -5,7 +5,7 @@ import initView from './view.js';
 import timer from './timer.js';
 import resources from './locales/index.js';
 
-const runApp = () => document.addEventListener('DOMContentLoaded', () => {
+const runApp = () => {
   const state = {
     urls: [],
     form: {
@@ -52,6 +52,6 @@ const runApp = () => document.addEventListener('DOMContentLoaded', () => {
     const url = formData.get('url');
     validate(url, watched);
   });
-});
+};
 
 export default runApp;
