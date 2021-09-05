@@ -1,4 +1,3 @@
-import $ from 'jquery';
 import 'bootstrap';
 import './css/style.css';
 import i18next from 'i18next';
@@ -7,7 +6,7 @@ import initView from './view.js';
 import timer from './timer.js';
 import resources from './locales/index.js';
 
-const init = () => document.addEventListener('DOMContentLoaded', () => {
+const runApp = () => document.addEventListener('DOMContentLoaded', () => {
   const state = {
     urls: [],
     form: {
@@ -56,6 +55,4 @@ const init = () => document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-init();
-
-export default init;
+export default runApp;

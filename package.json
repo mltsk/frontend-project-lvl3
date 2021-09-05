@@ -21,7 +21,7 @@
     "testURL": "http://localhost/",
     "testEnvironment": "jsdom"
   },
-  "main": "src/index.js",
+  "main": "src/runapp.js",
   "devDependencies": {
     "@babel/core": "^7.14.8",
     "@babel/eslint-parser": "^7.14.7",
