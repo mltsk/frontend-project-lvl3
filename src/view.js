@@ -31,15 +31,15 @@ const renderFeed = (feeds, elements) => {
 
   const ul = document.createElement('ul');
   ul.classList.add('list-group', 'border-0', 'rounded-0');
-  feeds.forEach((el) => {
+  feeds.forEach((feed) => {
     const li = document.createElement('li');
     li.classList.add('list-group-item', 'border-0', 'border-end-0');
     const h3 = document.createElement('h3');
     h3.classList.add('h6', 'm-0');
-    h3.textContent = el.title;
+    h3.textContent = feed.title;
     const p = document.createElement('p');
     p.classList.add('m-0', 'small', 'text-black-50');
-    p.textContent = el.description;
+    p.textContent = feed.description;
     li.append(h3, p);
     ul.append(li);
   });
@@ -62,20 +62,20 @@ const renderPost = (posts, elements) => {
 
   const ul = document.createElement('ul');
   ul.classList.add('list-group', 'border-0', 'rounded-0');
-  posts.forEach((el) => {
+  posts.forEach((post) => {
     const li = document.createElement('li');
     li.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-start', 'border-0', 'border-end-0');
     const a = document.createElement('a');
-    if (el.status === 'unread') {
+    if (post.status === 'unread') {
       a.classList.add('fw-bold');
     } else {
       a.classList.add('fw-normal');
     }
-    a.textContent = el.title;
+    a.textContent = post.title;
     a.setAttribute('target', '_blank');
     a.setAttribute('rel', 'noopener', 'noreferrer');
-    a.dataset.id = el.id;
-    a.href = el.link;
+    a.dataset.id = post.id;
+    a.href = post.link;
 
     const button = document.createElement('button');
     button.classList.add('btn', 'btn-outline-primary', 'btn-sm');
@@ -83,8 +83,8 @@ const renderPost = (posts, elements) => {
     button.setAttribute('type', 'button');
     button.dataset.bsTarget = '#modal';
     button.dataset.bsToggle = 'modal';
-    button.dataset.id = el.id;
-    button.href = el.link;
+    button.dataset.id = post.id;
+    button.href = post.link;
 
     li.append(a, button);
     ul.append(li);
@@ -93,13 +93,16 @@ const renderPost = (posts, elements) => {
   divCard.append(ul);
   elements.posts.append(divCard);
 
-  document.querySelectorAll("[data-bs-target='#modal']").forEach((button) => {
+  const previewButtons = document.querySelectorAll("[data-bs-target='#modal']");
+
+  previewButtons.forEach((button) => {
     button.addEventListener('click', (event) => {
       const idTarget = event.target.dataset.id;
+      const link = document.querySelector(`a[data-id='${idTarget}']`);
       const post = posts.find((item) => item.id === idTarget);
       post.status = 'read';
-      document.querySelector(`a[data-id='${idTarget}']`).classList.remove('fw-bold');
-      document.querySelector(`a[data-id='${idTarget}']`).classList.add('fw-normal');
+      link.classList.remove('fw-bold');
+      link.classList.add('fw-normal');
       elements.modalTitle.textContent = post.title;
       elements.modalBody.textContent = post.description;
     });
