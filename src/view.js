@@ -105,6 +105,7 @@ const renderPost = (posts, elements) => {
       link.classList.add('fw-normal');
       elements.modalTitle.textContent = post.title;
       elements.modalBody.textContent = post.description;
+      elements.fullArticleButton.href = post.link;
     });
   });
 };
