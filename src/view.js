@@ -106,7 +106,7 @@ const renderPost = (posts, elements) => {
   });
 };
 
-const renderButton = (status, elements) => {
+const renderForm = (status, elements) => {
   switch (status) {
     case 'loading':
       elements.button.setAttribute('disabled', true);
@@ -133,7 +133,7 @@ const initView = (state, elements) => {
     posts: () => renderPost(state.posts, elements),
     'form.input.feedback': () => renderFeedback(state.form.input.feedback, elements),
     'form.input.isValid': () => renderFeedbackValidation(state.form.input.isValid, elements),
-    'form.status': () => renderButton(state.form.status, elements),
+    'form.status': () => renderForm(state.form.status, elements),
   };
 
   const watchedState = onChange(state, (path) => {
