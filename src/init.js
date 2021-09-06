@@ -2,7 +2,6 @@ import 'bootstrap';
 import i18next from 'i18next';
 import validate from './validator.js';
 import initView from './view.js';
-import timer from './timer.js';
 import resources from './locales/index.js';
 
 const runApp = () => {
@@ -42,8 +41,6 @@ const runApp = () => {
   };
 
   const watched = initView(state, elements);
-
-  timer(watched);
 
   elements.form.addEventListener('submit', (event) => {
     event.preventDefault();

@@ -34,14 +34,42 @@ const getFeed = (rss, feedId, url) => {
   return rssFeed;
 };
 
+const getData = (url) => {
+  const proxy = 'https://hexlet-allorigins.herokuapp.com/get?disableCache=true';
+  return axios.get(`${proxy}&url=${encodeURIComponent(url)}`)
+    .then((response) => response.data);
+};
+
+const updatePosts = (state) => {
+  setTimeout(() => {
+    if (state.feeds.length) {
+      state.feeds.forEach(({ url, id }) => {
+        getData(url)
+          .then((data) => {
+            const { contents } = data;
+            const rss = parse(contents);
+            const posts = getPosts(rss, id, () => null);
+            const newPosts = _.uniqBy([...state.posts, ...posts], 'link')
+              .filter((post) => (post.id === null));
+            if (newPosts.length) {
+              newPosts.map((newPost) => {
+                newPost.id = _.uniqueId();
+                return newPost;
+              });
+              state.posts.unshift(...newPosts);
+            }
+          });
+      });
+    }
+    updatePosts(state);
+  }, 5000);
+};
+
 const getRss = (state, url) => {
   state.form.status = 'loading';
-  axios.get(`https://hexlet-allorigins.herokuapp.com/get?disableCache=true&url=${encodeURIComponent(url)}`)
-    .then((response) => {
-      const { contents } = response.data;
-      return contents;
-    })
-    .then((contents) => {
+  getData(url)
+    .then((data) => {
+      const { contents } = data;
       const rss = parse(contents);
       const feedId = _.uniqueId();
       state.feeds.unshift(getFeed(rss, feedId, url));
@@ -50,6 +78,7 @@ const getRss = (state, url) => {
       state.form.input.feedback = 'RSS is valid';
       state.form.input.isValid = true;
       state.form.status = 'success';
+      updatePosts(state);
     })
     .catch((error) => {
       state.form.status = 'failed';
