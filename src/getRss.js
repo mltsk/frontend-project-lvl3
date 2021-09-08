@@ -58,10 +58,13 @@ const updatePosts = (state) => {
               });
               state.posts.unshift(...newPosts);
             }
+            updatePosts(state);
+          })
+          .catch(() => {
+            updatePosts(state);
           });
       });
     }
-    updatePosts(state);
   }, 5000);
 };
 
