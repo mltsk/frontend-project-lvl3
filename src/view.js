@@ -93,10 +93,8 @@ const renderPost = (posts, elements) => {
   divCard.append(ul);
   elements.posts.append(divCard);
 
-  const previewButtons = document.querySelectorAll("[data-bs-target='#modal']");
-
-  previewButtons.forEach((button) => {
-    button.addEventListener('click', (event) => {
+  ul.addEventListener('click', (event) => {
+    if (event.target.dataset.id) {
       const idTarget = event.target.dataset.id;
       const link = document.querySelector(`a[data-id='${idTarget}']`);
       const post = posts.find((item) => item.id === idTarget);
@@ -106,7 +104,7 @@ const renderPost = (posts, elements) => {
       elements.modalTitle.textContent = post.title;
       elements.modalBody.textContent = post.description;
       elements.fullArticleButton.href = post.link;
-    });
+    }
   });
 };
 
