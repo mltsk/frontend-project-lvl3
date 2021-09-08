@@ -2,12 +2,12 @@ import axios from 'axios';
 import _ from 'lodash';
 import parse from './parser.js';
 
-const getPosts = (rss, feedId, id) => {
+const getPosts = (rss, feedId, getId) => {
   const rssPosts = [];
   Object.values(rss).forEach((item) => {
     if (item.nodeName === 'item') {
       const post = {};
-      post.id = id();
+      post.id = getId();
       post.status = 'unread';
       post.feedId = feedId;
       post.title = item.children[0].textContent;
