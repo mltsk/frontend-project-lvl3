@@ -1,5 +1,5 @@
 import onChange from 'on-change';
-import i18next from 'i18next';
+import i18next from './locales/index.js';
 
 const renderFeedback = (feedback, elements) => {
   elements.feedback.textContent = i18next.t(feedback);

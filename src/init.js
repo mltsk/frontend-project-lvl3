@@ -1,8 +1,6 @@
 import 'bootstrap';
-import i18next from 'i18next';
 import validate from './validator.js';
 import initView from './view.js';
-import resources from './locales/index.js';
 
 const runApp = () => {
   const state = {
@@ -17,16 +15,6 @@ const runApp = () => {
     feeds: [],
     posts: [],
   };
-
-  i18next.init({
-    lng: 'ru',
-    debug: true,
-    resources: {
-      ru: {
-        translation: resources(),
-      },
-    },
-  });
 
   const elements = {
     form: document.querySelector('.rss-form'),
