@@ -1,6 +1,7 @@
 import 'bootstrap';
 import validate from './validator.js';
 import initView from './view.js';
+import getRss from './getRss.js';
 
 const runApp = () => {
   const state = {
@@ -35,7 +36,14 @@ const runApp = () => {
     watched.form.input.feedback = null;
     const formData = new FormData(event.target);
     const url = formData.get('url');
-    validate(url, watched);
+    const urlsList = state.urls;
+    validate(url, urlsList)
+      .then((error) => {
+        const isValid = error === null;
+        watched.form.input.isValid = isValid;
+        watched.form.input.feedback = error;
+        if (isValid) getRss(watched, url);
+      });
   });
 };
 

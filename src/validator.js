@@ -1,5 +1,4 @@
 import * as yup from 'yup';
-import getRss from './getRss.js';
 
 yup.setLocale({
   mixed: {
@@ -12,20 +11,15 @@ yup.setLocale({
   },
 });
 
-const validate = (url, state) => {
+const validate = (url, urlsList) => {
   const schema = yup.object().shape({
-    url: yup.string().url().min(1).notOneOf(state.urls),
+    url: yup.string().url().min(1).notOneOf(urlsList),
   });
-  schema.validate({ url })
-    .then(() => {
-      state.form.input.feedback = null;
-      state.form.input.isValid = true;
-      getRss(state, url);
-    })
+  return schema.validate({ url })
+    .then(() => null)
     .catch((err) => {
       const error = err.errors[0];
-      state.form.input.feedback = error;
-      state.form.input.isValid = false;
+      return error;
     });
 };
 
