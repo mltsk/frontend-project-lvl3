@@ -6,15 +6,16 @@ import getRss from './getRss.js';
 const runApp = () => {
   const state = {
     urls: [],
+    feeds: [],
+    posts: [],
+    networkStatus: null,
     form: {
-      status: null,
+      status: 'filling',
       input: {
         feedback: null,
         isValid: null,
       },
     },
-    feeds: [],
-    posts: [],
   };
 
   const elements = {

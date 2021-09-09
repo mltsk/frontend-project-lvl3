@@ -108,24 +108,25 @@ const renderPost = (posts, elements) => {
   });
 };
 
-const renderForm = (status, elements) => {
-  switch (status) {
-    case 'loading':
+const renderNetworkStatus = (networkStatus, elements) => {
+  if (networkStatus === 'success') {
+    elements.form.reset();
+    elements.input.focus();
+  }
+};
+
+const renderFormStatus = (formStatus, elements) => {
+  switch (formStatus) {
+    case 'readOnly':
       elements.button.setAttribute('disabled', true);
       elements.input.setAttribute('readOnly', true);
       break;
-    case 'failed':
+    case 'filling':
       elements.button.removeAttribute('disabled');
       elements.input.removeAttribute('readOnly');
-      break;
-    case 'success':
-      elements.button.removeAttribute('disabled');
-      elements.input.removeAttribute('readOnly');
-      elements.form.reset();
-      elements.input.focus();
       break;
     default:
-      throw Error(`Unknown status: ${status}`);
+      throw Error(`Unknown status: ${formStatus}`);
   }
 };
 
@@ -135,7 +136,8 @@ const initView = (state, elements) => {
     posts: () => renderPost(state.posts, elements),
     'form.input.feedback': () => renderFeedback(state.form.input.feedback, elements),
     'form.input.isValid': () => renderFeedbackValidation(state.form.input.isValid, elements),
-    'form.status': () => renderForm(state.form.status, elements),
+    networkStatus: () => renderNetworkStatus(state.networkStatus, elements),
+    'form.status': () => renderFormStatus(state.form.status, elements),
   };
 
   const watchedState = onChange(state, (path) => {

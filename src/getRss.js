@@ -41,7 +41,8 @@ const updatePosts = (state) => {
 };
 
 const getRss = (state, url) => {
-  state.form.status = 'loading';
+  state.networkStatus = 'loading';
+  state.form.status = 'readOnly';
   getData(url)
     .then((data) => {
       const { contents } = data;
@@ -51,11 +52,13 @@ const getRss = (state, url) => {
       state.urls.push(url);
       state.form.input.feedback = 'RSS is valid';
       state.form.input.isValid = true;
-      state.form.status = 'success';
+      state.networkStatus = 'success';
+      state.form.status = 'filling';
       updatePosts(state);
     })
     .catch((error) => {
-      state.form.status = 'failed';
+      state.networkStatus = 'failed';
+      state.form.status = 'filling';
       state.form.input.feedback = error.message;
       state.form.input.isValid = false;
     });
