@@ -1,37 +1,13 @@
 import axios from 'axios';
 import _ from 'lodash';
+import onChange from 'on-change';
 import parse from './parser.js';
 
-const getPosts = (rss, feedId, getId) => {
-  const rssPosts = [];
-  Object.values(rss).forEach((item) => {
-    if (item.nodeName === 'item') {
-      const post = {};
-      post.id = getId();
-      post.status = 'unread';
-      post.feedId = feedId;
-      post.title = item.children[0].textContent;
-      post.link = item.children[2].textContent;
-      post.description = item.children[3].textContent;
-      rssPosts.push(post);
-    }
+const addIds = (obj) => {
+  [obj].flat().forEach((item) => {
+    item.id = _.uniqueId();
   });
-  return rssPosts;
-};
-
-const getFeed = (rss, feedId, url) => {
-  const rssFeed = {};
-  Object.values(rss).forEach((item) => {
-    if (item.nodeName === 'title') {
-      rssFeed.url = url;
-      rssFeed.id = feedId;
-      rssFeed.title = item.textContent;
-    }
-    if (item.nodeName === 'description') {
-      rssFeed.description = item.textContent;
-    }
-  });
-  return rssFeed;
+  return obj;
 };
 
 const getData = (url) => {
@@ -42,21 +18,17 @@ const getData = (url) => {
 
 const updatePosts = (state) => {
   setTimeout(() => {
-    if (state.feeds.length) {
-      state.feeds.forEach(({ url, id }) => {
+    if (state.urls.length) {
+      state.urls.forEach((url) => {
         getData(url)
           .then((data) => {
             const { contents } = data;
             const rss = parse(contents);
-            const posts = getPosts(rss, id, () => null);
-            const newPosts = _.uniqBy([...state.posts, ...posts], 'link')
-              .filter((post) => (post.id === null));
+            const { posts } = rss;
+            const oldPosts = onChange.target(state).posts;
+            const newPosts = _.xorBy(oldPosts, [...oldPosts, ...posts], 'link');
             if (newPosts.length) {
-              newPosts.map((newPost) => {
-                newPost.id = _.uniqueId();
-                return newPost;
-              });
-              state.posts.unshift(...newPosts);
+              state.posts.unshift(addIds(...newPosts));
             }
             updatePosts(state);
           })
@@ -74,9 +46,8 @@ const getRss = (state, url) => {
     .then((data) => {
       const { contents } = data;
       const rss = parse(contents);
-      const feedId = _.uniqueId();
-      state.feeds.unshift(getFeed(rss, feedId, url));
-      state.posts.unshift(...getPosts(rss, feedId, _.uniqueId));
+      state.feeds.unshift(addIds(rss.feed));
+      state.posts.unshift(...addIds(rss.posts));
       state.urls.push(url);
       state.form.input.feedback = 'RSS is valid';
       state.form.input.isValid = true;
