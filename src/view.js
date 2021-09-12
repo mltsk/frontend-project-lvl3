@@ -1,4 +1,5 @@
 import onChange from 'on-change';
+import _ from 'lodash';
 import i18next from './locales/index.js';
 
 const renderFeedback = (feedback, elements) => {
@@ -48,7 +49,8 @@ const renderFeed = (feeds, elements) => {
   elements.feeds.append(divCard);
 };
 
-const renderPost = (posts, elements) => {
+const renderPost = (state, elements) => {
+  const { posts } = state;
   elements.posts.innerHTML = '';
   const divCard = document.createElement('div');
   divCard.classList.add('card', 'border-0');
@@ -66,16 +68,16 @@ const renderPost = (posts, elements) => {
     const li = document.createElement('li');
     li.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-start', 'border-0', 'border-end-0');
     const a = document.createElement('a');
-    if (post.status === 'unread') {
-      a.classList.add('fw-bold');
-    } else {
-      a.classList.add('fw-normal');
-    }
     a.textContent = post.title;
     a.setAttribute('target', '_blank');
     a.setAttribute('rel', 'noopener', 'noreferrer');
     a.dataset.id = post.id;
     a.href = post.link;
+    if (_.includes(state.readIds, post.id.toString())) {
+      a.classList.add('fw-normal');
+    } else {
+      a.classList.add('fw-bold');
+    }
 
     const button = document.createElement('button');
     button.classList.add('btn', 'btn-outline-primary', 'btn-sm');
@@ -133,11 +135,12 @@ const renderFormStatus = (formStatus, elements) => {
 const initView = (state, elements) => {
   const mapping = {
     feeds: () => renderFeed(state.feeds, elements),
-    posts: () => renderPost(state.posts, elements),
+    posts: () => renderPost(state, elements),
     'form.input.feedback': () => renderFeedback(state.form.input.feedback, elements),
     'form.input.isValid': () => renderFeedbackValidation(state.form.input.isValid, elements),
     networkStatus: () => renderNetworkStatus(state.networkStatus, elements),
     'form.status': () => renderFormStatus(state.form.status, elements),
+    readIds: () => renderPost(state, elements),
   };
 
   const watchedState = onChange(state, (path) => {

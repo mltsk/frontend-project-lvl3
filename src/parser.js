@@ -23,6 +23,6 @@ const parse = (contents) => {
     rssData.posts.push(post);
   });
   return rssData;
-}
+};
 
 export default parse;

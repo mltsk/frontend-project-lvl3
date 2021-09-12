@@ -1,4 +1,5 @@
 import 'bootstrap';
+import _ from 'lodash';
 import validate from './validator.js';
 import initView from './view.js';
 import getRss from './getRss.js';
@@ -9,6 +10,7 @@ const runApp = () => {
     feeds: [],
     posts: [],
     networkStatus: null,
+    readIds: [],
     form: {
       status: 'filling',
       input: {
@@ -45,6 +47,13 @@ const runApp = () => {
         watched.form.input.feedback = error;
         if (isValid) getRss(watched, url);
       });
+  });
+
+  elements.posts.addEventListener('click', (event) => {
+    const idTarget = event.target.dataset.id;
+    if (idTarget && !_.includes(state.readIds, idTarget)) {
+      watched.readIds.push(idTarget);
+    }
   });
 };
 
