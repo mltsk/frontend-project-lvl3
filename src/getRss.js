@@ -3,11 +3,15 @@ import _ from 'lodash';
 import onChange from 'on-change';
 import parse from './parser.js';
 
-const addIds = (obj) => {
-  [obj].flat().forEach((item) => {
-    item.id = _.uniqueId();
-  });
-  return obj;
+const addIds = (rssData) => {
+  if (Array.isArray(rssData)) {
+    rssData.forEach((item) => {
+      item.id = _.uniqueId();
+    });
+  } else {
+    rssData.id = _.uniqueId();
+  }
+  return rssData;
 };
 
 const getData = (url) => {
@@ -28,7 +32,7 @@ const updatePosts = (state) => {
             const oldPosts = onChange.target(state).posts;
             const newPosts = _.xorBy(oldPosts, [...oldPosts, ...posts], 'link');
             if (newPosts.length) {
-              state.posts.unshift(addIds(...newPosts));
+              state.posts.unshift(...addIds(newPosts));
             }
           })
           .finally(() => {
