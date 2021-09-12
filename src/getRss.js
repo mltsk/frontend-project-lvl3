@@ -3,15 +3,16 @@ import _ from 'lodash';
 import onChange from 'on-change';
 import parse from './parser.js';
 
-const addIds = (rssData) => {
-  if (Array.isArray(rssData)) {
-    rssData.forEach((item) => {
-      item.id = _.uniqueId();
-    });
-  } else {
-    rssData.id = _.uniqueId();
-  }
-  return rssData;
+const addPostsIds = (posts) => {
+  posts.forEach((post) => {
+    post.id = _.uniqueId();
+  });
+  return posts;
+};
+
+const addFeedId = (feed) => {
+  feed.id = _.uniqueId();
+  return feed;
 };
 
 const getData = (url) => {
@@ -32,7 +33,7 @@ const updatePosts = (state) => {
             const oldPosts = onChange.target(state).posts;
             const newPosts = _.xorBy(oldPosts, [...oldPosts, ...posts], 'link');
             if (newPosts.length) {
-              state.posts.unshift(...addIds(newPosts));
+              state.posts.unshift(...addPostsIds(newPosts));
             }
           })
           .finally(() => {
@@ -50,8 +51,8 @@ const getRss = (state, url) => {
     .then((data) => {
       const { contents } = data;
       const rss = parse(contents);
-      state.feeds.unshift(addIds(rss.feed));
-      state.posts.unshift(...addIds(rss.posts));
+      state.feeds.unshift(addFeedId(rss.feed));
+      state.posts.unshift(...addPostsIds(rss.posts));
       state.urls.push(url);
       state.form.input.feedback = 'RSS is valid';
       state.form.input.isValid = true;
