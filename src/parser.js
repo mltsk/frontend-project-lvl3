@@ -8,20 +8,19 @@ const parse = (contents) => {
   if (data.querySelector('parsererror')) {
     throw new Error('Error parsing XML');
   }
-  const rss = data.children[0].children[0].children;
-  Object.values(rss).forEach((item) => {
-    if (item.nodeName === 'title') {
-      rssData.feed.title = item.textContent;
-    } else if (item.nodeName === 'description') {
-      rssData.feed.description = item.textContent;
-    } else if (item.nodeName === 'item') {
-      const post = {};
-      post.status = 'unread';
-      post.title = item.children[0].textContent;
-      post.link = item.children[2].textContent;
-      post.description = item.children[3].textContent;
-      rssData.posts.push(post);
-    }
+  const title = data.querySelector('channel > title');
+  const description = data.querySelector('channel > title');
+  const items = data.querySelectorAll('item');
+
+  rssData.feed.title = title.textContent;
+  rssData.feed.description = description.textContent;
+
+  Object.values(items).forEach((item) => {
+    const post = {};
+    post.title = item.children[0].textContent;
+    post.link = item.children[2].textContent;
+    post.description = item.children[3].textContent;
+    rssData.posts.push(post);
   });
   return rssData;
 }
