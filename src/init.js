@@ -33,6 +33,7 @@ const runApp = () => {
   };
 
   const watched = initView(state, elements);
+
   elements.form.addEventListener('submit', (event) => {
     event.preventDefault();
     watched.form.input.feedback = null;
