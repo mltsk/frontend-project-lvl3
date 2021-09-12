@@ -51,7 +51,6 @@ const renderFeed = (feeds, elements) => {
 
 const renderPost = (state, elements) => {
   const { posts } = state;
-  
   elements.posts.innerHTML = '';
   const divCard = document.createElement('div');
   divCard.classList.add('card', 'border-0');
