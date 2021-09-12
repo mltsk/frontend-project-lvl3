@@ -1,11 +1,11 @@
-function parse(contents) {
+const parse = (contents) => {
   const rssData = {
     feed: {},
     posts: [],
   };
   const parser = new DOMParser();
   const data = parser.parseFromString(contents, 'application/xml');
-  if (data.getElementsByTagName('parsererror').length > 0) {
+  if (data.querySelector('parsererror')) {
     throw new Error('Error parsing XML');
   }
   const rss = data.children[0].children[0].children;
