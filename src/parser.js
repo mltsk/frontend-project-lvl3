@@ -9,7 +9,7 @@ const parse = (contents) => {
     throw new Error('Error parsing XML');
   }
   const title = data.querySelector('channel > title');
-  const description = data.querySelector('channel > title');
+  const description = data.querySelector('channel > description');
   const items = data.querySelectorAll('item');
 
   rssData.feed.title = title.textContent;
