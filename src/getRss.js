@@ -30,9 +30,8 @@ const updatePosts = (state) => {
             if (newPosts.length) {
               state.posts.unshift(addIds(...newPosts));
             }
-            updatePosts(state);
           })
-          .catch(() => {
+          .finally(() => {
             updatePosts(state);
           });
       });
