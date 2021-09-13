@@ -94,20 +94,6 @@ const renderPost = (state, elements) => {
 
   divCard.append(ul);
   elements.posts.append(divCard);
-
-  ul.addEventListener('click', (event) => {
-    if (event.target.dataset.id) {
-      const idTarget = event.target.dataset.id;
-      const link = document.querySelector(`a[data-id='${idTarget}']`);
-      const post = posts.find((item) => item.id === idTarget);
-      post.status = 'read';
-      link.classList.remove('fw-bold');
-      link.classList.add('fw-normal');
-      elements.modalTitle.textContent = post.title;
-      elements.modalBody.textContent = post.description;
-      elements.fullArticleButton.href = post.link;
-    }
-  });
 };
 
 const renderNetworkStatus = (networkStatus, elements) => {
@@ -132,6 +118,12 @@ const renderFormStatus = (formStatus, elements) => {
   }
 };
 
+const renderModal = (modal, elements) => {
+  elements.modalTitle.textContent = modal.title;
+  elements.modalBody.textContent = modal.description;
+  elements.fullArticleButton.href = modal.link;
+};
+
 const initView = (state, elements) => {
   const mapping = {
     feeds: () => renderFeed(state.feeds, elements),
@@ -141,6 +133,7 @@ const initView = (state, elements) => {
     networkStatus: () => renderNetworkStatus(state.networkStatus, elements),
     'form.status': () => renderFormStatus(state.form.status, elements),
     readIds: () => renderPost(state, elements),
+    modal: () => renderModal(state.modal, elements),
   };
 
   const watchedState = onChange(state, (path) => {

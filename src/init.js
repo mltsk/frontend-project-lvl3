@@ -11,6 +11,7 @@ const runApp = () => {
     posts: [],
     networkStatus: null,
     readIds: [],
+    modal: { title: '', description: '', link: '' },
     form: {
       status: 'filling',
       input: {
@@ -53,6 +54,10 @@ const runApp = () => {
     const idTarget = event.target.dataset.id;
     if (idTarget && !_.includes(state.readIds, idTarget)) {
       watched.readIds.push(idTarget);
+    }
+    if (idTarget) {
+      const post = state.posts.find((item) => item.id === idTarget);
+      watched.modal = { title: post.title, description: post.description, link: post.link };
     }
   });
 };
