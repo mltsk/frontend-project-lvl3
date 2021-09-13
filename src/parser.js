@@ -17,9 +17,9 @@ const parse = (contents) => {
 
   Object.values(items).forEach((item) => {
     const post = {};
-    post.title = item.children[0].textContent;
-    post.link = item.children[2].textContent;
-    post.description = item.children[3].textContent;
+    post.title = item.querySelector('title').textContent;
+    post.link = item.querySelector('link').textContent;
+    post.description = item.querySelector('description').textContent;
     rssData.posts.push(post);
   });
   return rssData;
