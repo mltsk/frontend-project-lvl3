@@ -131,7 +131,7 @@ const initView = (state, elements, i18next) => {
     'form.input.isValid': () => renderFeedbackValidation(state.form.input.isValid, elements),
     networkStatus: () => renderNetworkStatus(state.networkStatus, elements),
     'form.status': () => renderFormStatus(state.form.status, elements),
-    readIds: () => renderPost(state, elements),
+    readIds: () => renderPost(state, elements, i18next),
     modal: () => renderModal(state.modal, elements),
   };
 
