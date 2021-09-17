@@ -1,5 +1,4 @@
 import 'bootstrap';
-import _ from 'lodash';
 import i18n from 'i18next';
 import validate from './validator.js';
 import initView from './view.js';
@@ -12,8 +11,8 @@ const runApp = () => {
     feeds: [],
     posts: [],
     networkStatus: null,
-    readIds: [],
-    modal: { title: '', description: '', link: '' },
+    readIds: new Set(),
+    modalId: null,
     form: {
       status: 'filling',
       input: {
@@ -65,12 +64,9 @@ const runApp = () => {
 
   elements.posts.addEventListener('click', (event) => {
     const idTarget = event.target.dataset.id;
-    if (idTarget && !_.includes(state.readIds, idTarget)) {
-      watched.readIds.push(idTarget);
-    }
+    watched.readIds.add(idTarget);
     if (idTarget) {
-      const post = state.posts.find((item) => item.id === idTarget);
-      watched.modal = { title: post.title, description: post.description, link: post.link };
+      watched.modalId = idTarget;
     }
   });
 };

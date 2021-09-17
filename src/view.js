@@ -72,7 +72,7 @@ const renderPost = (state, elements, i18next) => {
     a.setAttribute('rel', 'noopener', 'noreferrer');
     a.dataset.id = post.id;
     a.href = post.link;
-    if (_.includes(state.readIds, post.id.toString())) {
+    if (_.includes(Array.from(state.readIds), post.id.toString())) {
       a.classList.add('fw-normal');
     } else {
       a.classList.add('fw-bold');
@@ -117,10 +117,11 @@ const renderFormStatus = (formStatus, elements) => {
   }
 };
 
-const renderModal = (modal, elements) => {
-  elements.modalTitle.textContent = modal.title;
-  elements.modalBody.textContent = modal.description;
-  elements.fullArticleButton.href = modal.link;
+const renderModal = (modalId, posts, elements) => {
+  const post = posts.find((item) => item.id === modalId);
+  elements.modalTitle.textContent = post.title;
+  elements.modalBody.textContent = post.description;
+  elements.fullArticleButton.href = post.link;
 };
 
 const initView = (state, elements, i18next) => {
@@ -132,7 +133,7 @@ const initView = (state, elements, i18next) => {
     networkStatus: () => renderNetworkStatus(state.networkStatus, elements),
     'form.status': () => renderFormStatus(state.form.status, elements),
     readIds: () => renderPost(state, elements, i18next),
-    modal: () => renderModal(state.modal, elements),
+    modalId: () => renderModal(state.modalId, state.posts, elements),
   };
 
   const watchedState = onChange(state, (path) => {
