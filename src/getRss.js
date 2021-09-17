@@ -15,9 +15,16 @@ const addFeedId = (feed) => {
   return feed;
 };
 
+const getHref = (url) => {
+  const newUrl = new URL('https://hexlet-allorigins.herokuapp.com/get');
+  newUrl.searchParams.set('disableCache', 'true');
+  newUrl.searchParams.set('url', (url));
+  return (newUrl.href);
+};
+
 const getData = (url) => {
-  const proxy = 'https://hexlet-allorigins.herokuapp.com/get?disableCache=true';
-  return axios.get(`${proxy}&url=${encodeURIComponent(url)}`)
+  const href = getHref(url);
+  return axios.get(href)
     .then((response) => response.data);
 };
 
