@@ -1,8 +1,10 @@
 import 'bootstrap';
 import _ from 'lodash';
+import i18n from 'i18next';
 import validate from './validator.js';
 import initView from './view.js';
 import getRss from './getRss.js';
+import ru from './locales/ru.js';
 
 const runApp = () => {
   const state = {
@@ -21,6 +23,17 @@ const runApp = () => {
     },
   };
 
+  const i18next = i18n.createInstance();
+  i18next.init({
+    lng: 'ru',
+    debug: true,
+    resources: {
+      ru: {
+        translation: ru,
+      },
+    },
+  });
+
   const elements = {
     form: document.querySelector('.rss-form'),
     input: document.querySelector('.form-control'),
@@ -33,7 +46,7 @@ const runApp = () => {
     fullArticleButton: document.querySelector('.full-article'),
   };
 
-  const watched = initView(state, elements);
+  const watched = initView(state, elements, i18next);
 
   elements.form.addEventListener('submit', (event) => {
     event.preventDefault();

@@ -1,8 +1,7 @@
 import onChange from 'on-change';
 import _ from 'lodash';
-import i18next from './locales/index.js';
 
-const renderFeedback = (feedback, elements) => {
+const renderFeedback = (feedback, elements, i18next) => {
   elements.feedback.textContent = i18next.t(feedback);
 };
 
@@ -18,7 +17,7 @@ const renderFeedbackValidation = (isValid, elements) => {
   }
 };
 
-const renderFeed = (feeds, elements) => {
+const renderFeed = (feeds, elements, i18next) => {
   elements.feeds.innerHTML = '';
   const divCard = document.createElement('div');
   divCard.classList.add('card', 'border-0');
@@ -26,7 +25,7 @@ const renderFeed = (feeds, elements) => {
   divCardBody.classList.add('card-body');
   const h2 = document.createElement('h2');
   h2.classList.add('card-title', 'h4');
-  h2.textContent = 'Фиды';
+  h2.textContent = i18next.t('Feeds');
   divCard.append(divCardBody);
   divCardBody.append(h2);
 
@@ -49,7 +48,7 @@ const renderFeed = (feeds, elements) => {
   elements.feeds.append(divCard);
 };
 
-const renderPost = (state, elements) => {
+const renderPost = (state, elements, i18next) => {
   const { posts } = state;
   elements.posts.innerHTML = '';
   const divCard = document.createElement('div');
@@ -58,7 +57,7 @@ const renderPost = (state, elements) => {
   divCardBody.classList.add('card-body');
   const h2 = document.createElement('h2');
   h2.classList.add('card-title', 'h4');
-  h2.textContent = 'Посты';
+  h2.textContent = i18next.t('Posts');
   divCard.append(divCardBody);
   divCardBody.append(h2);
 
@@ -124,11 +123,11 @@ const renderModal = (modal, elements) => {
   elements.fullArticleButton.href = modal.link;
 };
 
-const initView = (state, elements) => {
+const initView = (state, elements, i18next) => {
   const mapping = {
-    feeds: () => renderFeed(state.feeds, elements),
-    posts: () => renderPost(state, elements),
-    'form.input.feedback': () => renderFeedback(state.form.input.feedback, elements),
+    feeds: () => renderFeed(state.feeds, elements, i18next),
+    posts: () => renderPost(state, elements, i18next),
+    'form.input.feedback': () => renderFeedback(state.form.input.feedback, elements, i18next),
     'form.input.isValid': () => renderFeedbackValidation(state.form.input.isValid, elements),
     networkStatus: () => renderNetworkStatus(state.networkStatus, elements),
     'form.status': () => renderFormStatus(state.form.status, elements),
