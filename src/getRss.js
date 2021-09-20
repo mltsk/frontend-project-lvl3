@@ -18,7 +18,7 @@ const addFeedId = (feed) => {
 const getHref = (url) => {
   const newUrl = new URL('https://hexlet-allorigins.herokuapp.com/get');
   newUrl.searchParams.set('disableCache', 'true');
-  newUrl.searchParams.set('url', (url));
+  newUrl.searchParams.set('url', url);
   return (newUrl.href);
 };
 
