@@ -1,6 +1,7 @@
 const ru = {
   Feeds: 'Фиды',
   Posts: 'Посты',
+  Viewing: 'Просмотр',
   'URL is not valid': 'Ссылка должна быть валидным URL',
   'RSS already exists': 'RSS уже существует',
   'RSS is valid': 'RSS успешно загружен',

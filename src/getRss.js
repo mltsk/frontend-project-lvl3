@@ -68,9 +68,13 @@ const getRss = (state, url) => {
       updatePosts(state);
     })
     .catch((error) => {
+      if (error.isAxiosError) {
+        state.form.input.feedback = 'Network Error';
+      } else if (error.isParserError) {
+        state.form.input.feedback = 'Error parsing XML';
+      }
       state.networkStatus = 'failed';
       state.form.status = 'filling';
-      state.form.input.feedback = error.message;
       state.form.input.isValid = false;
     });
 };

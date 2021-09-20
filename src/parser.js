@@ -6,7 +6,8 @@ const parse = (contents) => {
   const parser = new DOMParser();
   const data = parser.parseFromString(contents, 'application/xml');
   if (data.querySelector('parsererror')) {
-    throw new Error('Error parsing XML');
+    const parserError = { isParserError: true };
+    throw parserError;
   }
   const title = data.querySelector('channel > title');
   const description = data.querySelector('channel > description');

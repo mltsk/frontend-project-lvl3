@@ -80,7 +80,7 @@ const renderPost = (state, elements, i18next) => {
 
     const button = document.createElement('button');
     button.classList.add('btn', 'btn-outline-primary', 'btn-sm');
-    button.textContent = 'Просмотр';
+    button.textContent = i18next.t('Viewing');
     button.setAttribute('type', 'button');
     button.dataset.bsTarget = '#modal';
     button.dataset.bsToggle = 'modal';
